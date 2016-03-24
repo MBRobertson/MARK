@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>MARK</title>
+        <link rel="stylesheet" href="/css/main.css">
+        <link rel="stylesheet" href="/css/tiles.css">
+        <script src="/js/jquery.min.js"></script>
+        <script src="/socket.io/socket.io.js"></script>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta charset="UTF-8">
+    </head>
+    <body>
+        <h1 class="title">MARK</h1>
+        <div class="info-box"><a class="info info-button" id="startButton" href="#">Find Match</a></div>
+        <main class="game">
+        </main>
+        <section class="container placement-container toggleable toggled hidden">
+            <p class="container-text">Avaliable Units:</p>
+            <div class="placement-sub-container">
+            </div>
+        </section>
+        <section class="container action-container toggleable toggled hidden">
+            <p class="container-text">Avaliable Actions:</p>
+            <a class="bind-reveal action-button">Reveal</a>
+            <a class="bind-activate action-button">Activate</a>
+            <a class="bind-shuffle action-disabled">Shuffle</a>
+        </section>
+        <section class="template">
+            <div data-type="TokenBlank" class="token TokenBlank"><span></span></div>
+            <div data-type="TokenVIP" class="token TokenVIP"><span>VIP</span></div>
+            <div data-type="TokenBomber" class="token TokenBomber"><span>B</span></div>
+            <div data-type="TokenShooter" class="token TokenShooter"><span>S</span></div>
+            <div data-type="TokenAssassin" class="token TokenAssassin"><span>A</span></div>
+            <section class="container action-sub-container"> <!-- TODO pre and post LOOOK AT ME DONT IGNORE THIS NOTE -->
+                <p class="container-text">Avaliable Actions:</p>
+                <a class="bind-reveal action-button">Reveal</a>
+                <a class="bind-activate action-button">Activate</a>
+                <a class="bind-shuffle action-disabled">Shuffle</a>
+            </section>
+        </section>
+        <script src="/scripts/tokens.js"></script>
+        <script src="/js/strings.js"></script>
+        <script src="/js/helper.js"></script>
+        <script src="/js/gameclient.js"></script>
+    </body>
+</html>

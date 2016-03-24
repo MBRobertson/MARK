@@ -1,0 +1,61 @@
+.tileTransition1 {
+    transition: all linear 0.15s;
+}
+.tileTransition2 {
+    transition: all linear 0.1s;
+}
+.tileTransition3 {
+    transition: all linear 0.35s;
+}
+.tileTransition4 {
+    transition: all linear 0.20s;
+}
+.token {
+    display: block;
+    position: absolute;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    border: 1px solid rgb(100, 100, 100);
+    width: 40px;
+    height: 40px;
+    text-align: center;
+    border-radius: 20px;
+    background-color: rgb(240, 240, 240);
+    cursor: pointer;
+    transition:
+        top ease-out 0.3s,
+        left ease-out 0.3s;
+}
+.token>span {
+    display: block;
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    padding: 8px 0;
+    text-align: center;
+}
+.placement-token-selected {
+    border: 1px solid rgb(40, 150, 40);
+    background-color: rgb(153, 210, 153);
+}
+.flicker {
+    /*background-color: white;*/
+    opacity: 0.4;
+}
+
+.enemy {
+    border: 1px solid rgb(160, 20, 20);
+    background-color: rgb(255,222,222);
+}
+.fogged {
+    border-style: dotted;
+    border-width: 2px;
+}
+
+.selected { background-color: rgb(100, 230, 190); }
+.movable { background-color: #6ED0FF; }
+.highlight { border-color: rgb(17, 165, 0); background-color: rgb(196, 234, 193); }
+.selectable { background-color: #99DC98; }
+.illegal { background-color: #FF4A4A; }
