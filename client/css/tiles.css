@@ -1,3 +1,15 @@
+.tile {
+    width: 50px;
+    height: 50px;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    border: 1px solid black;
+    background-color: white;
+    cursor: pointer;
+    transition: all  0.25s linear;
+}
+
 .tileTransition1 {
     transition: all linear 0.15s;
 }
@@ -15,6 +27,7 @@
     position: absolute;
     margin: 0;
     padding: 0;
+    opacity: 1;
     box-sizing: border-box;
     border: 1px solid rgb(100, 100, 100);
     width: 40px;
@@ -24,9 +37,14 @@
     background-color: rgb(240, 240, 240);
     cursor: pointer;
     transition:
+        background-color linear 0.3s,
         top ease-out 0.3s,
-        left ease-out 0.3s;
+        left ease-out 0.3s,
+        border linear 0.3s,
+        transform linear 0.3s,
+        opacity linear 0.35s;
 }
+
 .token>span {
     display: block;
     margin: 0;
@@ -35,6 +53,26 @@
     box-sizing: border-box;
     padding: 8px 0;
     text-align: center;
+}
+
+
+@media screen and (max-width: 500px) {
+    .tile {
+        width: 30px;
+        height: 30px;
+    }
+    .token>span {
+        font-size: 10pt;
+        padding: 3px 0;
+    }
+    .token {
+        width: 26px;
+        height: 26px;
+    }
+}
+
+.tileBlocked {
+    background-color: rgb(100, 100, 100);
 }
 .placement-token-selected {
     border: 1px solid rgb(40, 150, 40);
@@ -54,8 +92,40 @@
     border-width: 2px;
 }
 
+.fatigued {
+    /*background-color: rgb(236, 225, 145);*/
+    border: 2px solid rgb(202, 161, 0);
+}
+
 .selected { background-color: rgb(100, 230, 190); }
 .movable { background-color: #6ED0FF; }
 .highlight { border-color: rgb(17, 165, 0); background-color: rgb(196, 234, 193); }
 .selectable { background-color: #99DC98; }
 .illegal { background-color: #FF4A4A; }
+.targetable { 
+    background-color: #E07B7B;
+    /*animation: targetable-pulse 1s infinite;*/
+}
+.flip { transform: rotateY(90deg); }
+
+@keyframes targetable-pulse {
+  0% {
+    background-color: #ED6161;
+  }
+  50% {
+    background-color: #E81E1E;
+  }
+  100% {
+    background-color: #ED6161;
+  }
+}
+
+.capture-anim {
+    transform: scale(0);
+    opacity: 0;
+}
+
+.explode-anim {
+    opacity: 0;
+    transform: scale(3);
+}

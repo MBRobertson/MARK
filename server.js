@@ -18,6 +18,10 @@ router.get('/', function(req,res){
     res.sendfile(__dirname + '/client/index.html');
 }); 
 
+router.get('/map', function(req,res) {
+    res.sendfile(__dirname + '/client/map.html');
+})
+
 var queue = new Game();
 io.on('connection', function (socket) {
     if (queue.disconnected)

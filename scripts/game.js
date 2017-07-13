@@ -23,6 +23,7 @@ var Game = function() {
     this.disconnected = false;
     this.state = this.states.Waiting;
     this.placementComplete = false;
+    this.turnActions = [];
 }
 
 Game.prototype.pid = function(player) {
@@ -105,15 +106,77 @@ Game.prototype.toggleTurn = function() {
     return this.currentTurn;
 }
 
+Game.prototype.checkWin = function() {
+    var p1Alive = false;
+    var p2Alive = false;
+    for (var index = 0; index < this.tokens.length; index++) {
+        if (this.tokens[index].type == "TokenVIP") {
+            if (this.tokens[index].owner == 1) {
+                p1Alive = true;
+            } else if (this.tokens[index].owner == 2) {
+                p2Alive = true;
+            }
+        }
+    }
+    if (p1Alive && p2Alive)
+        return -1;
+    else if (!p1Alive && !p2Alive)
+        return 0;
+    else if (p1Alive && !p2Alive)
+        return 1;
+    else if (!p1Alive && p2Alive)
+        return 2;
+}
+
 Game.prototype.startRound = function() {
+    //TODO this doesn't really quite work
     this.broadcast('game-turn', {turn: this.currentTurn});
     var _this = this;
     this.getPlayer(this.currentTurn).once('turn', function(data) {
         if (data.action == 'move') {
             var token = _this.getTokenAt(data.x1, data.y1)
+            _this.turnActions = [];
+            if (_this.isTokenAt(data.x2, data.y2)) {
+                _this.getTokenAt(data.x2, data.y2).capture();
+            }
             token.x = data.x2;
             token.y = data.y2;
-            _this.broadcast('on-turn', data);
+            _this.turnActions.push({ action: 'move', x1: data.x1, y1: data.y1, x2: data.x2, y2: data.y2});
+            _this.broadcast('on-turn', {
+                action: 'chain',
+                steps: _this.turnActions
+            });
+            //_this.broadcast('on-turn', data);
+            _this.onConfirm(function() {
+                _this.purgeCaptured();
+                var won = _this.checkWin();
+                if (won > -1) {
+                    _this.broadcast('game-win', {winner: won})
+                } else {
+                    _this.toggleTurn();
+                    _this.startRound();
+                }
+            })
+        }
+        else if (data.action == 'shuffle') {
+            var vip = _this.getTokenAt(data.x1, data.y1);
+            var token = _this.getTokenAt(data.x2, data.y2);
+            
+            vip.x = data.x2;
+            vip.y = data.y2;
+            
+            token.x = data.x1;
+            token.y = data.y1;
+            
+            _this.broadcast('on-turn', {
+                action: 'shuffle',
+                player: _this.currentTurn,
+                vipx: data.x1,
+                vipy: data.y1,
+                x: data.x2,
+                y: data.y2
+            });
+            
             _this.onConfirm(function() {
                 _this.toggleTurn();
                 _this.startRound();
@@ -136,6 +199,32 @@ Game.prototype.startRound = function() {
                 _this.startRound();
             })
         }
+        else if (data.action == 'activate') {
+            var token = _this.getTokenAt(data.x1, data.y1);
+            _this.turnActions = [];
+            if (token.targetable) {
+                //TODO handle targetable actions
+                token.activate(data.x2, data.y2);
+            }
+            else {
+                //TODO handle untargetable actions Pretty much done
+                token.activate();
+            }
+            _this.broadcast('on-turn', {
+                action: 'chain',
+                steps: _this.turnActions
+            });
+            _this.onConfirm(function() {
+                _this.purgeCaptured();
+                var won = _this.checkWin();
+                if (won > -1) {
+                    _this.broadcast('game-win', {winner: won})
+                } else {
+                    _this.toggleTurn();
+                    _this.startRound();
+                }
+            })
+        }
     });
 }
 
@@ -148,7 +237,7 @@ Game.prototype.startPlacementRound = function() {
     this.broadcast('game-place', { turn: this.currentTurn })
     var _this = this
     this.getPlayer(this.currentTurn).once('placed-unit', function(data) {
-        var t = tokens.deserialize(data.token);
+        var t = tokens.deserialize(data.token, _this);
         _this.tokens.push(t);
         var finished = false;
         if (data.finished) {
@@ -202,8 +291,23 @@ Game.prototype.genBoard = function() {
     }
 }
 
+Game.prototype.purgeCaptured = function() {
+    var purgeList = [];
+    for (var index = 0; index < this.tokens.length; index++) {
+        if (this.tokens[index].captured) {
+            var token = this.tokens[index]
+            purgeList.push(token);
+        }
+    }
+    for (var index = 0; index < purgeList.length; index++) {
+        //console.log(purgeList[index].type + ': ' + purgeList[index].captured)
+        this.tokens.splice(this.tokens.indexOf(purgeList[index]), 1);
+    }
+}
+
 Game.prototype.captureToken = function(token) {
-    //TODO: Capture tokens
+    token.captured = true;
+    token.capture();
 }
 
 Game.prototype.isTokenAt = function(x, y) {

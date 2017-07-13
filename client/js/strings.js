@@ -1,18 +1,23 @@
 var strings = {
+    TokenBlank: {
+        name: 'Unknown'  
+    },
     TokenVIP: {
         name: 'VIP',
         namelower: 'VIP',
-        actionVerb: 'Surrender'
+        actionVerb: 'Surrender',
+        confirmation: 'Are you sure you want to surrender? (You will lose the game)'
     },
     TokenBomber: {
         name: 'Bomber',
         namelower: 'bomber',
-        actionVerb: 'Explode'
+        actionVerb: 'Explode',
+        confirmation: 'Are you sure you want to detonate your bomber?'
     },
     TokenShooter: {
         name: 'Shooter',
         namelower: 'shooter',
-        actionVerb: 'Snipe Target'
+        actionVerb: 'Shoot'
     },
     TokenAssassin: {
         name: 'Assassin',

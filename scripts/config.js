@@ -3,7 +3,7 @@ module.exports = {
         width: 10,
         height: 10
     },
-    /*defaultTokens: [ 
+    defaultTokens: [ 
         "TokenAssassin",
         "TokenAssassin",
         "TokenAssassin",
@@ -11,6 +11,6 @@ module.exports = {
         "TokenBomber",
         "TokenBomber",
         "TokenVIP"
-    ]*/
-    defaultTokens: ["TokenBomber", "TokenVIP"]
+    ]
+    // defaultTokens: ["TokenBomber", "TokenVIP"]
 }

@@ -11,6 +11,15 @@
     </head>
     <body>
         <h1 class="title">MARK</h1>
+        <aside class="combat-log combat-log-hidden">
+            <h3>Combat Log</h3><a href="#" class="action-button action-button-warn" id="close-log">X</a>
+            <div class="log-container">
+                <span class="log">
+                    <!--<span class="log-int token-reference ref-enemy" data-ref="12">Unknown</span> moved from <span class="log-int position-reference" data-x="1" data-y="2">(1, 2)</span> to <span class="log-int position-reference" data-x="2" data-y="2">(2, 2)</span>-->
+                </span>
+            </div>
+        </aside>
+        <a href="#" class="action-button" id="open-log">Combat Log</a>
         <div class="info-box"><a class="info info-button" id="startButton" href="#">Find Match</a></div>
         <main class="game">
         </main>
@@ -20,10 +29,6 @@
             </div>
         </section>
         <section class="container action-container toggleable toggled hidden">
-            <p class="container-text">Avaliable Actions:</p>
-            <a class="bind-reveal action-button">Reveal</a>
-            <a class="bind-activate action-button">Activate</a>
-            <a class="bind-shuffle action-disabled">Shuffle</a>
         </section>
         <section class="template">
             <div data-type="TokenBlank" class="token TokenBlank"><span></span></div>
@@ -31,11 +36,16 @@
             <div data-type="TokenBomber" class="token TokenBomber"><span>B</span></div>
             <div data-type="TokenShooter" class="token TokenShooter"><span>S</span></div>
             <div data-type="TokenAssassin" class="token TokenAssassin"><span>A</span></div>
-            <section class="container action-sub-container"> <!-- TODO pre and post LOOOK AT ME DONT IGNORE THIS NOTE -->
+            <section class="container action-init action-sub-container">
                 <p class="container-text">Avaliable Actions:</p>
                 <a class="bind-reveal action-button">Reveal</a>
                 <a class="bind-activate action-button">Activate</a>
                 <a class="bind-shuffle action-disabled">Shuffle</a>
+            </section>
+            <section class="container action-confirm action-sub-container">
+                <p class="container-text confirm-text">Are you sure you want to DO SOMETHING:</p>
+                <a class="bind-confirm action-button action-button-warn">Reveal</a>
+                <a class="bind-cancel action-button">Cancel</a>
             </section>
         </section>
         <script src="/scripts/tokens.js"></script>
